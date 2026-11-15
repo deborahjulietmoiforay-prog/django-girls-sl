@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DCOMP207 Final Project Portfolio — Django Girls Sierra Leone</title>
+<style>
+  :root {
+    --green: #0c4b33;
+    --green-dark: #073322;
+    --green-soft: #e6f3ec;
+    --pink: #e8457a;
+    --pink-soft: #fde8ef;
+    --paper: #f6f5f0;
+    --ink: #182620;
+    --muted: #55635c;
+    --line: #d6dcd8;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Brief requirement: Tahoma font with a size of 12pt (16px) and 4 to 5 pages */
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Tahoma, Verdana, sans-serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: var(--ink);
+    background: #dcdad3;
+  }
+
+  /* Top control bar (hidden when printing) */
+  .no-print-bar {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: var(--green-dark);
+    color: #fff;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    border-bottom: 3px solid var(--pink);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  }
+
+  .no-print-bar .bar-inputs {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 10pt;
+  }
+
+  .no-print-bar input {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #9ab5a8;
+    font-family: Tahoma, sans-serif;
+    font-size: 10pt;
+    width: 240px;
+  }
+
+  .print-btn {
+    background: var(--pink);
+    color: #fff;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 6px;
+    font: bold 11pt Tahoma, sans-serif;
+    cursor: pointer;
+  }
+
+  .print-btn:hover {
+    background: #c92f62;
+  }
+
+  /* A3 Sheet Container (5 Pages total as required: "between 4 to 5 pages") */
+  .portfolio-wrapper {
+    max-width: 1320px;
+    margin: 24px auto;
+    padding: 0 16px;
+  }
+
+  .a3-page {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 36px 44px;
+    margin-bottom: 28px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    border-top: 8px solid var(--green);
+    position: relative;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .a3-page:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+
+  /* Page Header & Footer */
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--pink);
+    padding-bottom: 14px;
+    margin-bottom: 24px;
+  }
+
+  .page-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .page-header-left img {
+    height: 54px;
+    width: auto;
+  }
+
+  .page-header-title h1 {
+    margin: 0;
+    font-size: 18pt;
+    color: var(--green);
+  }
+
+  .page-header-title p {
+    margin: 2px 0 0;
+    font-size: 10.5pt;
+    color: var(--muted);
+  }
+
+  .page-badge {
+    background: var(--green);
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 99px;
+    font-weight: bold;
+    font-size: 10.5pt;
+    border-bottom: 3px solid var(--pink);
+  }
+
+  .page-footer {
+    margin-top: 26px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    font-size: 10pt;
+    color: var(--muted);
+  }
+
+  /* Section Headings */
+  .sec-tag {
+    display: inline-block;
+    background: var(--pink-soft);
+    color: var(--pink);
+    font-weight: bold;
+    font-size: 9.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 3px 10px;
+    border-radius: 99px;
+    margin-bottom: 4px;
+  }
+
+  h2.sec-heading {
+    margin: 0 0 14px;
+    font-size: 15pt;
+    color: var(--green);
+    border-left: 5px solid var(--pink);
+    padding-left: 10px;
+  }
+
+  h3 {
+    margin: 0 0 8px;
+    font-size: 12.5pt;
+    color: var(--green);
+  }
+
+  p {
+    margin: 0 0 10px;
+  }
+
+  /* Grid Layouts */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .box {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+
+  .box-white {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--green);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+
+  .box-pink {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--pink);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+
+  ul.clean-list {
+    margin: 0;
+    padding-left: 20px;
+  }
+
+  ul.clean-list li {
+    margin-bottom: 6px;
+  }
+
+  /* Swatches & Moodboard */
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+
+  .swatch {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    font-size: 10pt;
+  }
+
+  .swatch-color {
+    height: 64px;
+  }
+
+  .swatch-info {
+    padding: 8px 10px;
+  }
+
+  .swatch-info strong {
+    display: block;
+    font-size: 10.5pt;
+  }
+
+  .mood-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 14px;
+  }
+
+  .mood-grid img {
+    width: 100%;
+    height: 195px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid var(--line);
+  }
+
+  /* Wireframe Diagrams */
+  .wf-card {
+    background: #fff;
+    border: 2px solid #9aa8a1;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 9.5pt;
+  }
+
+  .wf-bar {
+    background: var(--green);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .wf-block {
+    background: #eef1ef;
+    border: 1px dashed #8c9c94;
+    padding: 8px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+
+  .wf-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  /* Interface Screen Previews */
+  .screen-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .screen-bar {
+    background: var(--green-dark);
+    color: #fff;
+    padding: 6px 12px;
+    font-size: 9.5pt;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .screen-dots span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--pink);
+    margin-right: 4px;
+  }
+
+  .screen-body {
+    padding: 14px 16px;
+    flex: 1;
+    font-size: 10.5pt;
+  }
+
+  .mini-ui {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 9.5pt;
+  }
+
+  /* ERD & Architecture Tables */
+  .erd-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .erd-table {
+    background: #fff;
+    border: 2px solid var(--green);
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 9.5pt;
+  }
+
+  .erd-head {
+    background: var(--green);
+    color: #fff;
+    padding: 6px 10px;
+    font-weight: bold;
+    border-bottom: 2px solid var(--pink);
+  }
+
+  .erd-table ul {
+    list-style: none;
+    margin: 0;
+    padding: 8px 10px;
+  }
+
+  .erd-table li {
+    padding: 2px 0;
+    border-bottom: 1px dotted var(--line);
+  }
+
+  .erd-table li:last-child {
+    border-bottom: 0;
+  }
+
+  .pk {
+    color: var(--pink);
+    font-weight: bold;
+  }
+
+  .fk {
+    color: var(--green);
+    font-weight: bold;
+  }
+
+  /* Flow Steps */
+  .flow-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 8px 0;
+  }
+
+  .flow-step {
+    background: var(--green-soft);
+    border: 1px solid var(--green);
+    color: var(--green);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 10pt;
+  }
+
+  .flow-arrow {
+    color: var(--pink);
+    font-weight: bold;
+    font-size: 13pt;
+  }
+
+  /* QR Code Box */
+  .qr-card {
+    background: #fff;
+    border: 2px solid var(--green);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .qr-card img, .qr-card svg {
+    width: 155px;
+    height: 155px;
+    margin: 8px auto;
+    display: block;
+    border: 4px solid var(--paper);
+    border-radius: 8px;
+  }
+
+  @page {
+    size: A3 landscape;
+    margin: 10mm;
+  }
+
+  @media print {
+    html, body {
+      background: #fff;
+    }
+    .no-print-bar {
+      display: none !important;
+    }
+    .portfolio-wrapper {
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    .a3-page {
+      box-shadow: none;
+      margin: 0;
+      border-radius: 0;
+      padding: 20px 28px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Interactive Toolbar (Hidden when printing) -->
+<div class="no-print-bar">
+  <div>
+    <strong>DCOMP207 A3 Project Portfolio (5 Pages &bull; Tahoma 12pt)</strong>
+    <div style="font-size:9.5pt;opacity:.88">Edit your Live URL or GitHub link below to update the QR codes automatically, then click Print / Save as PDF.</div>
+  </div>
+  <div class="bar-inputs">
+    <label>Live URL:
+      <input type="text" id="liveUrlInput" value="http://localhost/final_project/" oninput="updateLinks()">
+    </label>
+    <label>GitHub Repo:
+      <input type="text" id="githubUrlInput" value="https://github.com/deborahmoiforay/djangogirls-sl-platform" oninput="updateLinks()">
+    </label>
+    <button class="print-btn" onclick="window.print()">&#128424; Print / Save as A3 PDF</button>
+  </div>
+</div>
+
+<div class="portfolio-wrapper">
+
+  <!-- =====================================================================
+       PAGE 1: SECTION 1 (ORGANISATION) & SECTION 2 (PROBLEM & RESEARCH)
+       ===================================================================== -->
+  <section class="a3-page">
+    <header class="page-header">
+      <div class="page-header-left">
+        <img src="assets/logo.png" alt="Django Girls Sierra Leone Logo">
+        <div class="page-header-title">
+          <h1>DJANGO GIRLS SIERRA LEONE &mdash; COMMUNITY MANAGEMENT PLATFORM</h1>
+          <p>Limkokwing University of Creative Technology, Sierra Leone &bull; Faculty of ICT &bull; DCOMP207 Web Programming Final Project</p>
+        </div>
+      </div>
+      <span class="page-badge">Page 1 of 5 &bull; Sections 1 &amp; 2</span>
+    </header>
+
+    <span class="sec-tag">Page / Section 1 &mdash; Organisation Profile</span>
+    <h2 class="sec-heading">1. Organisation Overview: Django Girls Sierra Leone</h2>
+
+    <div class="grid-3" style="margin-bottom:22px">
+      <div class="box-white">
+        <h3>Organisation Name &amp; Brand Logo</h3>
+        <div style="background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px;text-align:center;margin-bottom:10px">
+          <img src="assets/logo.png" alt="Django Girls Sierra Leone Logo" style="max-height:68px;width:auto">
+        </div>
+        <p><strong>Official Name:</strong> Django Girls Sierra Leone</p>
+        <p><strong>Headquarters:</strong> Freetown Innovation Hub &amp; Limkokwing ICT Labs, Freetown, Sierra Leone</p>
+        <p style="margin:0"><strong>Continuation of Assignment 1:</strong> Directly expands the Assignment 1 Authentication Portal (<code>auth_project</code>) into a full-scale web-based community and organisation management platform.</p>
+      </div>
+
+      <div class="box-white">
+        <h3>Background, Mission &amp; Vision</h3>
+        <p><strong>Background:</strong> Founded as part of the global non-profit Django Girls initiative, Django Girls Sierra Leone empowers women across Freetown and regional universities to enter the software industry through free, practical coding workshops and peer mentorship.</p>
+        <p><strong>Mission:</strong> To demystify software engineering by providing Sierra Leonean women with accessible learning materials, hands-on Python/Django and Web Programming bootcamps, and a supportive mentorship network.</p>
+        <p style="margin:0"><strong>Vision:</strong> A thriving, inclusive technology ecosystem in Sierra Leone where women lead as full-stack developers, innovators, and technical mentors.</p>
+      </div>
+
+      <div class="box-pink">
+        <h3>Core Services &amp; Target Users</h3>
+        <p><strong>Core Services Provided:</strong></p>
+        <ul class="clean-list">
+          <li><strong>Hands-on Coding Workshops:</strong> Free in-person Freetown lab bootcamps and online training sessions.</li>
+          <li><strong>Curated Learning Library:</strong> Self-paced tutorials in Python, Django, HTML/CSS, JavaScript, Data Science, and UI/UX Design.</li>
+          <li><strong>1-on-1 Developer Mentorship:</strong> Matching beginner coders with experienced Sierra Leonean software engineers.</li>
+          <li><strong>Community Forum:</strong> Peer Q&amp;A discussion board.</li>
+        </ul>
+        <p style="margin-top:8px;margin-bottom:0"><strong>Target Users:</strong> Female university students, aspiring beginners in web programming, volunteer tech mentors, and community administrators.</p>
+      </div>
+    </div>
+
+    <span class="sec-tag">Page / Section 2 &mdash; Problem Statement &amp; User Research</span>
+    <h2 class="sec-heading">2. Problem Analysis, User Needs &amp; Proposed Solution</h2>
+
+    <div class="grid-4">
+      <div class="box">
+        <h3>1. Existing Problem</h3>
+        <p>Prior to this platform, community operations relied on disconnected tools—paper sign-up sheets at workshops, scattered WhatsApp links for tutorials, and manual spreadsheets for tracking attendance.</p>
+        <p style="margin:0">In Assignment 1, members could register and log in, but lacked interactive tools to register for events, track tutorial progress, upload profile pictures, or request mentors.</p>
+      </div>
+
+      <div class="box">
+        <h3>2. User Needs Identified</h3>
+        <ul class="clean-list">
+          <li><strong>Members:</strong> Need a personalized dashboard that recommends workshops and tutorials matching their chosen coding interests and tracks completion percentage.</li>
+          <li><strong>Mentees &amp; Mentors:</strong> Need a structured directory to view developer profiles and send/accept mentorship requests.</li>
+          <li><strong>Administrators:</strong> Need real-time engagement analytics, attendance tracking, and CSV reporting.</li>
+        </ul>
+      </div>
+
+      <div class="box">
+        <h3>3. Proposed Solution</h3>
+        <p>A centralized, database-driven PHP &amp; SQLite (PDO) Web Community Management Platform featuring:</p>
+        <ul class="clean-list">
+          <li>Secure authentication &amp; role-based access control (Member, Mentor, Admin).</li>
+          <li>Interactive Dashboard with interest-based matching and progress bars.</li>
+          <li>Event capacity &amp; attendance tracker, Learning Library, Discussion Forum, Mentorship Hub, and Admin Analytics Panel.</li>
+        </ul>
+      </div>
+
+      <div class="box">
+        <h3>4. Target Audience</h3>
+        <ul class="clean-list">
+          <li><strong>Primary Audience:</strong> Young women (ages 16–30) in Sierra Leone studying ICT or transitioning into web development.</li>
+          <li><strong>Secondary Audience:</strong> Industry software engineers and university lecturers volunteering as technical mentors.</li>
+          <li><strong>Organisational Admins:</strong> Chapter leads managing events, resources, and impact reports.</li>
+        </ul>
+      </div>
+    </div>
+
+    <footer class="page-footer">
+      <span>Student: <strong>Deborah Juliet Moiforay</strong> &bull; BSc (Hons) in Information Technology &bull; Semester 5</span>
+      <span>Module: DCOMP207 Web Programming &bull; Examiner: Oluwatosin Babarinde Ayorinde</span>
+    </footer>
+  </section>
+
+  <!-- =====================================================================
+       PAGE 2: SECTION 3 (UI/UX: MOOD BOARD, PALETTE, TYPOGRAPHY, WIREFRAMES)
+       ===================================================================== -->
+  <section class="a3-page">
+    <header class="page-header">
+      <div class="page-header-left">
+        <img src="assets/logo.png" alt="Logo">
+        <div class="page-header-title">
+          <h1>SECTION 3 &mdash; UI/UX DESIGN SYSTEM &amp; WIREFRAMES</h1>
+          <p>Visual Identity, Colour Psychology, Tahoma Typography Hierarchy, Component System &amp; Layout Wireframes</p>
+        </div>
+      </div>
+      <span class="page-badge">Page 2 of 5 &bull; Section 3 (UI/UX)</span>
+    </header>
+
+    <div class="grid-2" style="margin-bottom:20px">
+      <div>
+        <span class="sec-tag">Visual Inspiration</span>
+        <h2 class="sec-heading">Mood Board &amp; Cultural Context</h2>
+        <div class="mood-grid">
+          <img src="assets/hero-banner.jpg" alt="Freetown Women Coding Hub">
+          <img src="assets/workshop-banner.jpg" alt="Python & Web Dev Mentorship">
+        </div>
+        <p class="small" style="margin-top:8px;margin-bottom:0">
+          <strong>Mood Board Theme:</strong> Warm, empowering West African tech hub atmosphere in Freetown, Sierra Leone—combining collaborative laptop workshops, peer mentorship, and modern web code aesthetics.
+        </p>
+      </div>
+
+      <div>
+        <span class="sec-tag">Brand Colours &amp; Typography</span>
+        <h2 class="sec-heading">Colour Palette &amp; Typography</h2>
+        <div class="swatch-grid" style="margin-bottom:14px">
+          <div class="swatch">
+            <div class="swatch-color" style="background:#0c4b33"></div>
+            <div class="swatch-info"><strong>#0C4B33</strong>Emerald Green (Primary Brand)</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#e8457a"></div>
+            <div class="swatch-info"><strong>#E8457A</strong>Vibrant Pink (CTA &amp; Accents)</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#f6f5f0"></div>
+            <div class="swatch-info"><strong>#F6F5F0</strong>Warm Paper (Background)</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#182620"></div>
+            <div class="swatch-info"><strong>#182620</strong>Deep Forest Ink (Body Text)</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:#e6f3ec"></div>
+            <div class="swatch-info"><strong>#E6F3EC</strong>Mint Soft (Success/Tags)</div>
+          </div>
+        </div>
+
+        <div class="box" style="padding:12px 16px">
+          <h3 style="margin-bottom:4px">Typography &amp; UI Design System</h3>
+          <p style="margin-bottom:4px"><strong>Primary Font Family:</strong> <code>Tahoma, Verdana, Segoe UI, sans-serif</code> (High legibility across screens &amp; print at 12pt base size).</p>
+          <p style="margin:0"><strong>Design System Components:</strong> 12px rounded cards with soft elevation shadows, gradient progress bars (<code>#0c4b33 &rarr; #e8457a</code>), pill status badges (<code>Registered</code>, <code>Completed</code>, <code>Matches Interest</code>), and circular avatar frames.</p>
+        </div>
+      </div>
+    </div>
+
+    <span class="sec-tag">Low-Fidelity Structural Blueprints</span>
+    <h2 class="sec-heading">Key Page Wireframes</h2>
+
+    <div class="grid-3">
+      <div class="wf-card">
+        <div class="wf-bar"><span>[Logo] Django Girls SL</span><span>Home | Log in | Join</span></div>
+        <div class="wf-cols" style="margin-bottom:6px">
+          <div class="wf-block" style="height:85px;display:flex;align-items:center;justify-content:center"><strong>Hero Headline &amp; Mission</strong><br>[Create Account] [Log In]</div>
+          <div class="wf-block" style="height:85px;display:flex;align-items:center;justify-content:center"><strong>Hero Photo Banner</strong><br>(Freetown Tech Hub)</div>
+        </div>
+        <div class="wf-block">[Impact Strip: Members | Workshops | Tutorials | Mentors]</div>
+        <div class="wf-cols">
+          <div class="wf-block">Feature 1: Events</div>
+          <div class="wf-block">Feature 2: Library</div>
+          <div class="wf-block">Feature 3: Forum</div>
+          <div class="wf-block">Feature 4: Mentors</div>
+        </div>
+        <p style="margin:6px 0 0;text-align:center;font-weight:bold;color:var(--green)">Wireframe A: Public Landing Page (index.php)</p>
+      </div>
+
+      <div class="wf-card">
+        <div class="wf-bar"><span>[Logo]</span><span>Dashboard | Events | Resources | Forum | Profile</span></div>
+        <div class="wf-block" style="background:#e6f3ec"><strong>Welcome Banner:</strong> [Avatar] Greeting + Interests Chips + [Edit Profile]</div>
+        <div class="wf-cols" style="margin-bottom:6px">
+          <div class="wf-block"><strong>Training Progress</strong><br>[======= 50% =======]</div>
+          <div class="wf-block"><strong>Next Steps Checklist</strong><br>[✓] Profile [✓] Tutorial</div>
+        </div>
+        <div class="wf-cols">
+          <div class="wf-block"><strong>Personalized Events</strong><br>[★ Matches Interest] [Register]</div>
+          <div class="wf-block"><strong>Account Activity (Auth)</strong><br>Joined Date &amp; Last Login</div>
+        </div>
+        <p style="margin:6px 0 0;text-align:center;font-weight:bold;color:var(--green)">Wireframe B: Personalized Dashboard (dashboard.php)</p>
+      </div>
+
+      <div class="wf-card">
+        <div class="wf-bar"><span>[Logo] Admin</span><span>Analytics | Users | Events | Resources</span></div>
+        <div class="wf-block">[8 KPI Stat Cards: Members | New 30d | Mentors | Attendance % | Posts]</div>
+        <div class="wf-cols" style="margin-bottom:6px">
+          <div class="wf-block"><strong>Monthly Signups Chart</strong><br>Horizontal Bar Graph</div>
+          <div class="wf-block"><strong>Interests Distribution</strong><br>Python / Django / HTML</div>
+        </div>
+        <div class="wf-block"><strong>Event Participation &amp; Attendance Table</strong> + [CSV Export Buttons]</div>
+        <p style="margin:6px 0 0;text-align:center;font-weight:bold;color:var(--green)">Wireframe C: Admin Analytics Panel (admin/index.php)</p>
+      </div>
+    </div>
+
+    <footer class="page-footer">
+      <span>Student: <strong>Deborah Juliet Moiforay</strong> &bull; BSc (Hons) in Information Technology &bull; Semester 5</span>
+      <span>Section 3: UI/UX Mood Board, Colour Palette, Typography, Design System &amp; Wireframes</span>
+    </footer>
+  </section>
+
+  <!-- =====================================================================
+       PAGE 3: SECTION 4 (INTERFACE DESIGN — CORE SCREENS 1 TO 6)
+       ===================================================================== -->
+  <section class="a3-page">
+    <header class="page-header">
+      <div class="page-header-left">
+        <img src="assets/logo.png" alt="Logo">
+        <div class="page-header-title">
+          <h1>SECTION 4 &mdash; INTERFACE DESIGN (ALL 9 PLATFORM INTERFACES)</h1>
+          <p>High-Fidelity Interface Breakdown Covering Every Required Module in the Assessment Brief</p>
+        </div>
+      </div>
+      <span class="page-badge">Page 3 of 5 &bull; Section 4 (Interfaces)</span>
+    </header>
+
+    <span class="sec-tag">Page / Section 4 &mdash; Interface Design Specifications</span>
+    <h2 class="sec-heading">Implemented User &amp; Administrative Interfaces (1–9)</h2>
+
+    <div class="grid-3">
+      <!-- 1. Homepage -->
+      <div class="screen-card">
+        <div class="screen-bar"><div class="screen-dots"><span></span><span></span></div><span>1. Homepage (index.php)</span></div>
+        <div class="screen-body">
+          <div class="mini-ui">
+            <strong style="color:var(--green)">Learn to code. <span style="color:var(--pink)">Build your future.</span></strong><br>
+            <span>Split hero banner with Freetown coding photo, live database counter strip, 4 feature cards, and upcoming workshops preview.</span>
+          </div>
+          <p style="margin:0"><strong>UX Highlights:</strong> Clear call-to-action buttons (<code>Create Free Account</code> / <code>Open Dashboard</code>) and live community statistics pulled dynamically from SQLite.</p>
+        </div>
+      </div>
+
+      <!-- 2. Registration -->
+      <div class="screen-card">
+        <div class="screen-bar"><div class="screen-dots"><span></span><span></span></div><span>2. Registration (signup.php)</span></div>
+        <div class="screen-body">
+          <div class="mini-ui">
+            <strong>Fields:</strong> Full Name, Email, Password + Confirm, 6 Interest Pill Checkboxes, Experience Level, Bio &amp; Mentor Opt-in.
+          </div>
+          <p style="margin:0"><strong>UX Highlights:</strong> Validates email uniqueness and password complexity (8+ chars, letter + number), hashes with <code>password_hash()</code>, and stores member interests for dashboard personalization.</p>
+        </div>
+      </div>
+
+      <!-- 3. Login -->
+      <div class="screen-card">
+        <div class="screen-bar"><div class="screen-dots"><span></span><span></span></div><span>3. Login Page (login.php)</span></div>
+        <div class="screen-body">
+          <div class="mini-ui">
+            <strong>Authentication:</strong> Email + Password with Show/Hide toggle, CSRF token verification, and 1-click Demo Quick-Fill buttons.
+          </div>
+          <p style="margin:0"><strong>UX Highlights:</strong> Prevents session fixation via <code>session_regenerate_id(true)</code>, checks active account status, and records <code>last_login</code> timestamp.</p>
+        </div>
+      </div>
+
+      <!-- 4. Dashboard -->
+      <div class="screen-card">
+        <div class="screen-bar"><div class="screen-dots"><span></span><span></span></div><span>4. Member Dashboard (dashboard.php)</span></div>
+        <div class="screen-body">
+          <div class="mini-ui">
+            <strong>Personalized Hub:</strong> Greeting Banner + KPI Strip + Training Progress Bar + Next Steps Checklist + Account Activity + Matched Workshops.
+          </div>
+          <p style="margin:0"><strong>UX Highlights:</strong> Prioritizes workshops and tutorials that match the member's selected topics with a pink <code>&#9733; Matches your interest</code> badge.</p>
+        </div>
+      </div>
+
+      <!-- 5. Member Profile & Directory -->
+      <div class="screen-card">
+        <div class="screen-bar"><div class="screen-dots"><span></span><span></span></div><span>5. Profile &amp; Directory (profile.php / members.php)</span></div>
+        <div class="screen-body">
+          <div class="mini-ui">
+            <strong>Features:</strong> Custom Avatar Upload (JPG/PNG/WebP up to 2MB) with live preview, 4 preset SVG avatars, bio, interests, and public profile showcase.
+          </div>
+          <p style="margin:0"><strong>UX Highlights:</strong> Validates real MIME types via <code>finfo</code> and <code>getimagesize()</code>, plus a searchable Member &amp; Team Directory.</p>
+        </div>
+      </div>
+
+      <!-- 6. Events & Workshops -->
+      <div class="screen-card">
+        <div class="screen-bar"><div class="screen-dots"><span></span><span></span></div><span>6. Events &amp; Workshops (events.php)</span></div>
+        <div class="screen-body">
+          <div class="mini-ui">
+            <strong>Features:</strong> Filter by Workshop / Training Session / Event, live seat capacity bar (<code>X of Y seats left</code>), 1-click Register/Cancel, and History table.
+          </div>
+          <p style="margin:0"><strong>UX Highlights:</strong> Prevents overbooking when capacity is reached and tracks <code>Registered</code> vs <code>Attended</code> status.</p>
+        </div>
+      </div>
+
+      <!-- 7. Resources Library -->
+      <div class="screen-card">
+        <div class="screen-bar"><div class="screen-dots"><span></span><span></span></div><span>7. Learning Resources (resources.php)</span></div>
+        <div class="screen-body">
+          <div class="mini-ui">
+            <strong>Features:</strong> Category filter chips (Python, Django, HTML &amp; CSS, JS, Data Science, UI/UX), search box, and <code>&#10003; Mark Complete</code> toggle.
+          </div>
+          <p style="margin:0"><strong>UX Highlights:</strong> Dynamically recalculates the member's overall training completion bar as tutorials are marked done.</p>
+        </div>
+      </div>
+
+      <!-- 8. Community Forum & Mentors -->
+      <div class="screen-card">
+        <div class="screen-bar"><div class="screen-dots"><span></span><span></span></div><span>8. Community &amp; Mentors (community.php / mentors.php)</span></div>
+        <div class="screen-body">
+          <div class="mini-ui">
+            <strong>Features:</strong> Discussion board with threaded replies (<code>topic.php</code>) + Mentorship Hub where members send requests and mentors Accept/Decline.
+          </div>
+          <p style="margin:0"><strong>UX Highlights:</strong> Fosters peer collaboration and direct mentor-mentee connections with status badges.</p>
+        </div>
+      </div>
+
+      <!-- 9. Admin Panel -->
+      <div class="screen-card">
+        <div class="screen-bar"><div class="screen-dots"><span></span><span></span></div><span>9. Admin Panel (admin/index.php, users, events, resources)</span></div>
+        <div class="screen-body">
+          <div class="mini-ui">
+            <strong>Features:</strong> 8 KPI metrics, monthly signup &amp; interest charts, CSV exports, user role/status controls, event creation &amp; attendance marking.
+          </div>
+          <p style="margin:0"><strong>UX Highlights:</strong> Protected by <code>require_admin()</code>; includes formula-injection-safe CSV downloads and print view.</p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="page-footer">
+      <span>Student: <strong>Deborah Juliet Moiforay</strong> &bull; BSc (Hons) in Information Technology &bull; Semester 5</span>
+      <span>Section 4: Complete Interface Design Coverage (Homepage, Auth, Dashboard, Profile, Events, Resources, Community, Admin)</span>
+    </footer>
+  </section>
+
+  <!-- =====================================================================
+       PAGE 4: SECTION 5 (SYSTEM ARCHITECTURE, DATABASE ERD, NAVIGATION & WORKFLOWS)
+       ===================================================================== -->
+  <section class="a3-page">
+    <header class="page-header">
+      <div class="page-header-left">
+        <img src="assets/logo.png" alt="Logo">
+        <div class="page-header-title">
+          <h1>SECTION 5 &mdash; SYSTEM ARCHITECTURE, DATABASE ERD &amp; WORKFLOWS</h1>
+          <p>3-Tier PHP Application Architecture, 7-Table Relational Database Schema (ERD), Sitemap &amp; User Workflows</p>
+        </div>
+      </div>
+      <span class="page-badge">Page 4 of 5 &bull; Section 5 (System)</span>
+    </header>
+
+    <div class="grid-2" style="margin-bottom:18px">
+      <div class="box-white">
+        <span class="sec-tag">1. System Architecture</span>
+        <h3>3-Tier Web Application Architecture</h3>
+        <div class="flow-row">
+          <span class="flow-step">Client Browser (HTML5 / CSS3 / JS)</span>
+          <span class="flow-arrow">&harr;</span>
+          <span class="flow-step">Apache + PHP 8 Logic &amp; Security (CSRF / Auth / PDO)</span>
+          <span class="flow-arrow">&harr;</span>
+          <span class="flow-step">SQLite Relational DB (djangogirls.sqlite)</span>
+        </div>
+        <p style="margin-top:8px;margin-bottom:0">
+          <strong>Security &amp; Shared Modules:</strong> Central configuration in <code>config.php</code> manages sessions, PDO connection with <code>PRAGMA foreign_keys = ON</code>, CSRF token verification, and role guards (<code>require_login()</code>, <code>require_admin()</code>). Shared UI templates live in <code>includes/header.php</code> and <code>includes/footer.php</code>.
+        </p>
+      </div>
+
+      <div class="box-pink">
+        <span class="sec-tag">3. Navigation Structure</span>
+        <h3>Platform Sitemap &amp; Role Access Hierarchy</h3>
+        <ul class="clean-list" style="font-size:10.5pt">
+          <li><strong>Public / Guest Tier:</strong> <code>index.php</code> (Landing Page) &rarr; <code>signup.php</code> (Registration) &harr; <code>login.php</code> (Authentication).</li>
+          <li><strong>Authenticated Member Tier:</strong> <code>dashboard.php</code> (Hub) &rarr; <code>events.php</code> | <code>resources.php</code> | <code>community.php</code> &amp; <code>topic.php</code> | <code>mentors.php</code> | <code>members.php</code> &amp; <code>member.php</code> | <code>profile.php</code> | <code>logout.php</code>.</li>
+          <li><strong>Administrator Tier (<code>/admin/</code>):</strong> <code>admin/index.php</code> (Analytics &amp; CSV Export) &rarr; <code>admin/users.php</code> | <code>admin/events.php</code> | <code>admin/resources.php</code>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <span class="sec-tag">2. Database Design &amp; Entity-Relationship Diagram (ERD)</span>
+    <h2 class="sec-heading">Relational Database Schema (7 Normalized Tables with Foreign Keys)</h2>
+
+    <div class="erd-grid" style="margin-bottom:18px">
+      <div class="erd-table">
+        <div class="erd-head">1. users</div>
+        <ul>
+          <li><span class="pk">PK</span> id (INTEGER)</li>
+          <li>full_name (TEXT)</li>
+          <li>email (TEXT UNIQUE)</li>
+          <li>password_hash (TEXT)</li>
+          <li>role ('member'|'admin')</li>
+          <li>interests (TEXT CSV)</li>
+          <li>experience_level (TEXT)</li>
+          <li>bio, avatar (TEXT)</li>
+          <li>is_mentor, active (INT)</li>
+          <li>created_at, last_login</li>
+        </ul>
+      </div>
+
+      <div class="erd-table">
+        <div class="erd-head">2. events &amp; 3. registrations</div>
+        <ul>
+          <li><span class="pk">PK</span> events.id</li>
+          <li>title, description, type</li>
+          <li>topic, event_date, location</li>
+          <li>capacity (INTEGER)</li>
+          <li style="background:#f0f3f1;font-weight:bold">event_registrations:</li>
+          <li><span class="pk">PK</span> id</li>
+          <li><span class="fk">FK</span> event_id &rarr; events.id</li>
+          <li><span class="fk">FK</span> user_id &rarr; users.id</li>
+          <li>status ('registered'|'attended')</li>
+        </ul>
+      </div>
+
+      <div class="erd-table">
+        <div class="erd-head">4. resources &amp; 5. progress</div>
+        <ul>
+          <li><span class="pk">PK</span> resources.id</li>
+          <li>title, description</li>
+          <li>category, level, url</li>
+          <li style="background:#f0f3f1;font-weight:bold">resource_progress:</li>
+          <li><span class="pk">PK, FK</span> user_id &rarr; users.id</li>
+          <li><span class="pk, fk">PK, FK</span> resource_id &rarr; resources.id</li>
+          <li>completed_at (TEXT)</li>
+        </ul>
+      </div>
+
+      <div class="erd-table">
+        <div class="erd-head">6. topics, 7. replies &amp; 8. mentorships</div>
+        <ul>
+          <li><strong>topics:</strong> <span class="pk">PK</span> id, <span class="fk">FK</span> user_id, title, body</li>
+          <li><strong>replies:</strong> <span class="pk">PK</span> id, <span class="fk">FK</span> topic_id, <span class="fk">FK</span> user_id, body</li>
+          <li style="background:#f0f3f1;font-weight:bold">mentorships:</li>
+          <li><span class="pk">PK</span> id</li>
+          <li><span class="fk">FK</span> mentee_id &rarr; users.id</li>
+          <li><span class="fk">FK</span> mentor_id &rarr; users.id</li>
+          <li>message, status ('pending'|'accepted')</li>
+        </ul>
+      </div>
+    </div>
+
+    <span class="sec-tag">4. Main System Workflows</span>
+    <h2 class="sec-heading">Core End-to-End Operational Workflows</h2>
+
+    <div class="grid-2">
+      <div class="box">
+        <h3>Workflow A: Member Onboarding &amp; Personalized Learning</h3>
+        <div class="flow-row">
+          <span class="flow-step">Sign Up &amp; Pick Interests</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">Log In (Session + CSRF)</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">Dashboard Ranks Matched Content</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">Join Workshop &amp; Mark Tutorials Done</span>
+        </div>
+      </div>
+
+      <div class="box">
+        <h3>Workflow B: Mentorship &amp; Administrative Reporting</h3>
+        <div class="flow-row">
+          <span class="flow-step">Mentee Sends Request</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">Mentor Accepts on Dashboard</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">Admin Marks Event Attendance</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">Admin Exports CSV Analytics</span>
+        </div>
+      </div>
+    </div>
+
+    <footer class="page-footer">
+      <span>Student: <strong>Deborah Juliet Moiforay</strong> &bull; BSc (Hons) in Information Technology &bull; Semester 5</span>
+      <span>Section 5: System Architecture, Normalized SQLite ERD, Navigation Hierarchy &amp; Core Workflows</span>
+    </footer>
+  </section>
+
+  <!-- =====================================================================
+       PAGE 5: SECTION 6 (FINAL PRODUCT, SCREENSHOTS, LINKS & QR CODES)
+       ===================================================================== -->
+  <section class="a3-page">
+    <header class="page-header">
+      <div class="page-header-left">
+        <img src="assets/logo.png" alt="Logo">
+        <div class="page-header-title">
+          <h1>SECTION 6 &mdash; FINAL PRODUCT, LIVE LINKS &amp; QR CODES</h1>
+          <p>Visual Product Showcase, Deployment Links, Repository Structure &amp; Scannable QR Codes</p>
+        </div>
+      </div>
+      <span class="page-badge">Page 5 of 5 &bull; Section 6 (Final Product)</span>
+    </header>
+
+    <span class="sec-tag">Page / Section 6 &mdash; Final Product Visuals &amp; Access</span>
+    <h2 class="sec-heading">Final Web Application Visual Gallery</h2>
+
+    <div class="grid-3" style="margin-bottom:22px">
+      <div class="box-white">
+        <img src="assets/hero-banner.jpg" alt="Landing Page Hero Visual" style="width:100%;height:150px;object-fit:cover;border-radius:6px;margin-bottom:8px">
+        <h3>1. Public Portal &amp; Auth</h3>
+        <p style="margin:0;font-size:10.5pt">Responsive homepage with Freetown tech hub photography, live impact metrics, and split-screen registration/login forms connected to Assignment 1.</p>
+      </div>
+
+      <div class="box-white">
+        <img src="assets/workshop-banner.jpg" alt="Workshops and Mentorship Visual" style="width:100%;height:150px;object-fit:cover;border-radius:6px;margin-bottom:8px">
+        <h3>2. Interactive Member Hub</h3>
+        <p style="margin:0;font-size:10.5pt">Personalized dashboard with interest-matched workshops, real-time tutorial progress bars, custom profile picture uploads, and 1-on-1 mentorship matching.</p>
+      </div>
+
+      <div class="box-pink">
+        <div style="background:var(--green-dark);color:#fff;padding:14px;border-radius:6px;height:150px;margin-bottom:8px;display:flex;flex-direction:column;justify-content:center">
+          <div style="font-size:10pt;color:#9fe6c3;font-weight:bold">ADMIN ANALYTICS ENGINE</div>
+          <div style="font-size:18pt;font-weight:bold;margin:4px 0">100% Full CRUD + CSV</div>
+          <div style="font-size:9.5pt;opacity:.9">8 KPI Cards &bull; Monthly Signup Charts &bull; Interest Bars &bull; Attendance Verification</div>
+        </div>
+        <h3>3. Admin &amp; Analytics Suite</h3>
+        <p style="margin:0;font-size:10.5pt">Complete administrative control over users, roles, events, attendance tracking, learning resources, forum moderation, and CSV report downloads.</p>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="box">
+        <h3>Live System &amp; Repository Details</h3>
+        <p><strong>Live / Localhost System URL:</strong><br>
+          <a id="liveUrlText" href="http://localhost/final_project/" style="color:var(--green);font-weight:bold;word-break:break-all">http://localhost/final_project/</a>
+        </p>
+        <p><strong>GitHub Repository Link:</strong><br>
+          <a id="githubUrlText" href="https://github.com/deborahmoiforay/djangogirls-sl-platform" style="color:var(--pink);font-weight:bold;word-break:break-all">https://github.com/deborahmoiforay/djangogirls-sl-platform</a>
+        </p>
+        <hr style="border:0;border-top:1px solid var(--line);margin:12px 0">
+        <p style="margin-bottom:4px"><strong>Examiner Test Credentials:</strong></p>
+        <ul class="clean-list" style="font-size:10.5pt">
+          <li><strong>Admin:</strong> <code>admin@djangogirls.sl</code> / <code>Admin@12345</code></li>
+          <li><strong>Mentor:</strong> <code>aminata@djangogirls.sl</code> / <code>Mentor@12345</code></li>
+          <li><strong>Student Member:</strong> <code>deborahjulietmoiforay@gmail.com</code></li>
+        </ul>
+      </div>
+
+      <div class="qr-card">
+        <h3>QR Code to Live System</h3>
+        <img id="qrLiveImg" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=0c4b33&data=http%3A%2F%2Flocalhost%2Ffinal_project%2F"
+             alt="QR Code to Live System"
+             onerror="this.style.display='none';document.getElementById('qrLiveFallback').style.display='block'">
+        <svg id="qrLiveFallback" style="display:none" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect width="100" height="100" fill="#fff"/>
+          <rect x="8" y="8" width="26" height="26" fill="none" stroke="#0c4b33" stroke-width="4"/>
+          <rect x="15" y="15" width="12" height="12" fill="#0c4b33"/>
+          <rect x="66" y="8" width="26" height="26" fill="none" stroke="#0c4b33" stroke-width="4"/>
+          <rect x="73" y="15" width="12" height="12" fill="#0c4b33"/>
+          <rect x="8" y="66" width="26" height="26" fill="none" stroke="#0c4b33" stroke-width="4"/>
+          <rect x="15" y="73" width="12" height="12" fill="#0c4b33"/>
+          <rect x="42" y="12" width="6" height="6" fill="#0c4b33"/><rect x="52" y="18" width="6" height="12" fill="#0c4b33"/>
+          <rect x="42" y="36" width="16" height="6" fill="#e8457a"/><rect x="12" y="44" width="18" height="6" fill="#0c4b33"/>
+          <rect x="44" y="48" width="12" height="12" fill="#0c4b33"/><rect x="64" y="44" width="24" height="6" fill="#0c4b33"/>
+          <rect x="42" y="68" width="6" height="18" fill="#0c4b33"/><rect x="56" y="64" width="14" height="6" fill="#e8457a"/>
+          <rect x="76" y="60" width="12" height="12" fill="#0c4b33"/><rect x="62" y="78" width="26" height="8" fill="#0c4b33"/>
+        </svg>
+        <p class="small" style="margin:6px 0 0">Scan to open the Django Girls SL Web Application</p>
+      </div>
+
+      <div class="qr-card">
+        <h3>QR Code to GitHub Repository</h3>
+        <img id="qrGithubImg" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=e8457a&data=https%3A%2F%2Fgithub.com%2Fdeborahmoiforay%2Fdjangogirls-sl-platform"
+             alt="QR Code to GitHub Repository"
+             onerror="this.style.display='none';document.getElementById('qrGithubFallback').style.display='block'">
+        <svg id="qrGithubFallback" style="display:none" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect width="100" height="100" fill="#fff"/>
+          <rect x="8" y="8" width="26" height="26" fill="none" stroke="#e8457a" stroke-width="4"/>
+          <rect x="15" y="15" width="12" height="12" fill="#e8457a"/>
+          <rect x="66" y="8" width="26" height="26" fill="none" stroke="#e8457a" stroke-width="4"/>
+          <rect x="73" y="15" width="12" height="12" fill="#e8457a"/>
+          <rect x="8" y="66" width="26" height="26" fill="none" stroke="#e8457a" stroke-width="4"/>
+          <rect x="15" y="73" width="12" height="12" fill="#e8457a"/>
+          <rect x="40" y="10" width="12" height="6" fill="#0c4b33"/><rect x="46" y="22" width="12" height="8" fill="#e8457a"/>
+          <rect x="14" y="42" width="22" height="6" fill="#e8457a"/><rect x="44" y="42" width="14" height="14" fill="#0c4b33"/>
+          <rect x="66" y="42" width="20" height="8" fill="#e8457a"/><rect x="40" y="64" width="14" height="8" fill="#0c4b33"/>
+          <rect x="60" y="60" width="10" height="24" fill="#e8457a"/><rect x="76" y="68" width="14" height="18" fill="#0c4b33"/>
+        </svg>
+        <p class="small" style="margin:6px 0 0">Scan to inspect the PHP &amp; SQLite Source Code on GitHub</p>
+      </div>
+    </div>
+
+    <footer class="page-footer">
+      <span>&copy; <strong>Deborah Juliet Moiforay</strong>, BSc (Hons) in Information Technology, Semester 5, Limkokwing University Sierra Leone, 2026</span>
+      <span>Page 5 of 5 &bull; Final Project Portfolio Complete</span>
+    </footer>
+  </section>
+
+</div>
+
+<script>
+function updateLinks() {
+  const live = document.getElementById('liveUrlInput').value.trim() || 'http://localhost/final_project/';
+  const git  = document.getById('githubUrlInput').value.trim() || 'https://github.com/deborahmoiforay/djangogirls-sl-platform';
+
+  const liveA = document.getElementById('liveUrlText');
+  liveA.textContent = live;
+  liveA.href = live;
+
+  const gitA = document.getElementById('githubUrlText');
+  gitA.textContent = git;
+  gitA.href = git;
+
+  const qrLive = document.getElementById('qrLiveImg');
+  qrLive.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=0c4b33&data=' + encodeURIComponent(live);
+
+  const qrGit = document.getElementById('qrGithubImg');
+  qrGit.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=e8457a&data=' + encodeURIComponent(git);
+}
+</script>
+</body>
+</html>
