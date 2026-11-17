@@ -1,0 +1,23 @@
+{
+    "name": "django-girls-sl/community-platform",
+    "description": "Community platform backend for Django Girls SL",
+    "type": "project",
+    "require": {
+        "php": "^8.0 || ^8.1 || ^8.2 || ^8.3",
+        "vlucas/phpdotenv": "^5.6",
+        "guzzlehttp/guzzle": "^7.8",
+        "firebase/php-jwt": "^7.2",
+        "bramus/router": "^1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "community-platform/Backend/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "minimum-stability": "stable"
+}

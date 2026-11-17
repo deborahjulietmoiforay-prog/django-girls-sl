@@ -4,6 +4,106 @@
 // DCOMP207 Web Programming Final Project (Continuation of Assignment 1: AUTH)
 // ============================================================================
 
+// ---- Autoload Composer Dependencies & Load .env ----
+$autoloadPaths = [
+    __DIR__ . '/../../vendor/autoload.php',
+    __DIR__ . '/vendor/autoload.php',
+    dirname(__DIR__, 2) . '/vendor/autoload.php'
+];
+foreach ($autoloadPaths as $autoload) {
+    if (file_exists($autoload)) {
+        require_once $autoload;
+        break;
+    }
+}
+
+// Load root .env
+$envDirs = [dirname(__DIR__, 2), __DIR__];
+foreach ($envDirs as $dir) {
+    if (file_exists($dir . '/.env')) {
+        $dotenv = \Dotenv\Dotenv::createImmutable($dir);
+        $dotenv->safeLoad();
+        break;
+    }
+}
+
+// Define Supabase Configuration Constants
+if (!defined('SUPABASE_URL')) {
+    define('SUPABASE_URL', $_ENV['PROJECT_URL'] ?? $_ENV['SUPABASE_URL'] ?? '');
+}
+if (!defined('SUPABASE_ANON_KEY')) {
+    define('SUPABASE_ANON_KEY', $_ENV['ANON_KEY'] ?? $_ENV['SUPABASE_ANON_KEY'] ?? '');
+}
+if (!defined('SUPABASE_SERVICE_ROLE_KEY')) {
+    define('SUPABASE_SERVICE_ROLE_KEY', $_ENV['SUPABASE_SERVICE_ROLE_KEY'] ?? '');
+}
+if (!defined('DATABASE_URL')) {
+    define('DATABASE_URL', $_ENV['DATABASE_URL'] ?? '');
+}
+if (!defined('PUBLISHABLE_KEY')) {
+    define('PUBLISHABLE_KEY', $_ENV['PUBLISHABLE_KEY'] ?? '');
+}
+
+/**
+ * Return Guzzle client configured for Supabase REST and Auth endpoints.
+ */
+function supabase_client(?string $bearerToken = null): \GuzzleHttp\Client {
+    $key = SUPABASE_ANON_KEY;
+    $auth = $bearerToken ? 'Bearer ' . $bearerToken : 'Bearer ' . $key;
+
+    return new \GuzzleHttp\Client([
+        'base_uri' => rtrim(SUPABASE_URL, '/') . '/',
+        'timeout'  => 10.0,
+        'http_errors' => false,
+        'headers'  => [
+            'apikey'        => $key,
+            'Authorization' => $auth,
+            'Content-Type'  => 'application/json',
+            'Prefer'        => 'return=representation'
+        ]
+    ]);
+}
+
+/**
+ * Test the connection to Supabase.
+ * Returns array with 'success' boolean, 'message' string, and details.
+ */
+function test_supabase_connection(): array {
+    if (empty(SUPABASE_URL) || empty(SUPABASE_ANON_KEY)) {
+        return [
+            'success' => false,
+            'message' => 'Database failed to connect',
+            'details' => 'SUPABASE_URL or SUPABASE_ANON_KEY missing in .env'
+        ];
+    }
+
+    try {
+        $client = supabase_client();
+        $res = $client->get('auth/v1/health');
+        $code = $res->getStatusCode();
+
+        if ($code === 200) {
+            return [
+                'success' => true,
+                'message' => 'Database Connected Successfully',
+                'details' => 'Connected to Supabase project at ' . SUPABASE_URL . ' (Auth health: ' . $code . ' OK)'
+            ];
+        } else {
+            return [
+                'success' => false,
+                'message' => 'Database failed to connect',
+                'details' => 'Supabase returned HTTP status code: ' . $code . ' - ' . (string)$res->getBody()
+            ];
+        }
+    } catch (\Throwable $e) {
+        return [
+            'success' => false,
+            'message' => 'Database failed to connect',
+            'details' => $e->getMessage()
+        ];
+    }
+}
+
 // ---- STUDENT DETAILS FOR FOOTER ----
 const STUDENT_FIRST = 'Deborah Juliet';
 const STUDENT_LAST  = 'Moiforay';

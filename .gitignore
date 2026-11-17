@@ -1,0 +1,20 @@
+# Composer dependencies
+vendor/
+composer.phar
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Database & SQLite files
+data/*.sqlite
+data/*.sqlite-journal
+
+# Logs & cache
+*.log
+.phpunit.result.cache
+
+# OS files
+.DS_Store
+Thumbs.db
