@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 64" role="img" aria-label="Django Girls Sierra Leone">
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 10c-5 0-7 3-7 7v8c0 3-2 6-5 7 3 1 5 4 5 7v8c0 4 2 7 7 7" stroke="#2c4f4a" stroke-width="3.5"/>
+    <path d="M58 10c5 0 7 3 7 7v8c0 3 2 6 5 7-3 1-5 4-5 7v8c0 4-2 7-7 7" stroke="#2c4f4a" stroke-width="3.5"/>
+    <path d="M36 50 20 35a9 9 0 0 1 13-13l3 3 3-3a9 9 0 0 1 13 13z" stroke="#8e5b69" stroke-width="3.5"/>
+  </g>
+  <text x="84" y="31" font-family="Tahoma, Verdana, sans-serif" font-size="24" font-weight="700" fill="#2c4f4a">Django Girls</text>
+  <text x="85" y="52" font-family="Tahoma, Verdana, sans-serif" font-size="12.5" font-weight="700" letter-spacing="3.2" fill="#8e5b69">SIERRA LEONE</text>
+</svg>
